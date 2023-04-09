@@ -18,26 +18,30 @@ using ull = unsigned long long;
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
-long long const n = 1e6 + 1000;
-bitset<n> Bool;
-vector<int> prime;
-void sieve() {
-  Bool[0] = Bool[1] = 1;
-  
-  for (int i = 2; i * i < n; i++)
-    if (Bool[i] == 0)
-      for (int j = i * i; j < n; j += i)
-        Bool[j] = 1;
- 
-  for (int i = 0; i < n; i++)
-    if (Bool[i] == 0)
-      prime.push_back(i);
+bool Bool[90000001];
+int n=90000000;
+vector<int>prime;
+void sieve()
+{
+	for(int i=2;i*i<=n;i++)
+	{
+		if(Bool[i]==false)
+		{
+			for(int j=i*i;j<=n;j+=i)
+			{
+				Bool[j]=true;
+			}
+		}
+	}
+	for(int i=2;i<=n;i++)
+	{
+		if(Bool[i]==false)prime.push_back(i);
+	}
 }
 
 
-vector<ll> primeFact(long long n) {
+void primeFact(long long n) {
   int count;
-  vector<ll> res;
   for (int i = 0; i < prime.size() && prime[i] * prime[i] <= n; i++) {
     count = 0;
  
@@ -46,14 +50,12 @@ vector<ll> primeFact(long long n) {
       n /= prime[i];
     }
  
-    while(count--)
-      res.push_back(prime[i]);
-    }
+    if (count!= 0)
+      cout << prime[i] << endl;
+  }
  
   if (n != 1)
-    res.push_back(n);
-
-  return res;
+    cout << n << endl;
 }
 
 
@@ -65,13 +67,7 @@ int main() {
     ll x;
     cin >> x;
 
-    vector<ll> v = primeFact(x);
-    cout << x << ":";
-   for (int i = 0; i < v.size(); i++) {
-        cout << " " << v[i];
-    }
-
-    cout << endl;
+    primeFact(x);
 
     return 0;
 }
